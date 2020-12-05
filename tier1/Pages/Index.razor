@@ -1,0 +1,8 @@
+﻿@page "/"
+<AuthorizeView>
+<NotAuthorized><h1>Welcome to the system!</h1></NotAuthorized>
+<Authorized><h1>Hello @context.User.Identity.Name</h1></Authorized>
+</AuthorizeView>
+@code {
+    
+}

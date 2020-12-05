@@ -1,0 +1,29 @@
+﻿@page "/MyHomePage"
+
+<AuthorizeView>
+    <NotAuthorized>
+           <div class="form-group">
+                            <label>Log in to start your chat!</label>
+                        </div>
+                
+                <a href="Login">
+                    Login in here
+                </a>
+                <div style="color:red"></div>
+    </NotAuthorized>
+    <Authorized>
+
+        Hi!
+        
+        
+    </Authorized>
+</AuthorizeView>
+
+
+
+@code {
+
+
+  
+    
+}
