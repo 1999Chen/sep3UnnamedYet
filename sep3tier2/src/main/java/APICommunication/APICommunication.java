@@ -1,7 +1,9 @@
 package APICommunication;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
+import Model.ChatMessage;
+import Model.User;
+import com.google.gson.Gson;
+import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -9,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.lang.management.GarbageCollectorMXBean;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -18,12 +21,55 @@ public final class APICommunication
 {
     private static CloseableHttpClient client = HttpClients.createDefault();
     private static HttpPost httpPost;
+    private static HttpGet httpGet;
+    private static HttpPut httpPut;
+    private static HttpDelete httpDelete;
+    private static Gson gson=new Gson();
 
-    public static synchronized JSONObject createAccount(JSONObject usr)
+
+    public static synchronized JSONObject Login(String username, String password)
+    {
+        String responseBody = null;
+        httpPost = new HttpPost("https://localhost:44380/users/Login");
+        String json = "{\"Username\": \"" + username + "\",\"Password\": \"" + password + "\"}";
+        StringEntity entity = null;
+        try
+        {
+            entity = new StringEntity(json);
+
+        } catch (UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+        }
+        httpPost.setEntity(entity);
+        httpPost.setHeader("Accept", "application/json");
+        httpPost.setHeader("Content-type", "application/json");
+        CloseableHttpResponse response = null;
+        try
+        {
+            response = client.execute(httpPost);
+            responseBody = new String(response.getEntity().getContent().readAllBytes());
+        } catch (IOException e)
+        {
+            e.getMessage();
+        }
+        if (responseBody == null)
+        {
+            return new JSONObject("{\"ResponseCode\": \"connect to T3 failed\"}");
+        } else
+        {
+            return new JSONObject(responseBody);
+        }
+    }
+
+
+
+
+    public static synchronized JSONObject Register(JSONObject user)
     {
 
         httpPost = new HttpPost("https://localhost:44380/users/register");
-        String json = usr.toString();
+        String json = user.toString();
         StringEntity entity = null;
         try
         {
@@ -50,13 +96,15 @@ public final class APICommunication
     }
 
 
-    public static synchronized JSONObject getFisher(int id, String token)
+
+
+    public static synchronized JSONObject getUser(String username)
     {
         StringBuilder result = new StringBuilder();
         URL url = null;
         try
         {
-            url = new URL("https://localhost:44380/users/getuser/" + id);
+            url = new URL("https://localhost:44380/users/getuser/" + username);
         } catch (MalformedURLException e)
         {
             e.printStackTrace();
@@ -67,7 +115,7 @@ public final class APICommunication
             conn = (HttpURLConnection) url.openConnection();
             try
             {
-                conn.setRequestProperty("Authorization", "Bearer " + token);
+
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestMethod("GET");
 
@@ -106,11 +154,13 @@ public final class APICommunication
     }
 
 
-    public static synchronized JSONObject login(String username, String password)
+
+
+    public static synchronized JSONObject sendMessage(ChatMessage message)
     {
-        String responseBody = null;
-        httpPost = new HttpPost("https://localhost:44380/users/Authenticate");
-        String json = "{\"Username\": \"" + username + "\",\"Password\": \"" + password + "\"}";
+
+        httpPost = new HttpPost("https://localhost:44380/users/register");
+        String json = message.toString();
         StringEntity entity = null;
         try
         {
@@ -127,26 +177,24 @@ public final class APICommunication
         try
         {
             response = client.execute(httpPost);
-            responseBody = new String(response.getEntity().getContent().readAllBytes());
         } catch (IOException e)
         {
-            e.getMessage();
+            e.printStackTrace();
         }
-        if (responseBody == null)
-        {
-            return new JSONObject("{\"ResponseCode\": \"Can't connect to T3 \"}");
-        } else
-        {
-            return new JSONObject(responseBody);
-        }
+        int responseCodeInt = response.getStatusLine().getStatusCode();
+        JSONObject responseCode = new JSONObject("{\"ResponseCode\": \"" + responseCodeInt + "\"}");
+        return responseCode;
     }
 
-    public static synchronized JSONObject editFisher(int id, JSONObject data, String token) //pass,sexpref,picref,discription
+
+
+    public static synchronized JSONObject editUser(String username, JSONObject data)
     {
+
         URL url = null;
         try
         {
-            url = new URL("https://localhost:44380/users/" + id);
+            url = new URL("https://localhost:44380/users/" + username);
         } catch (MalformedURLException e)
         {
             e.printStackTrace();
@@ -162,7 +210,6 @@ public final class APICommunication
         httpCon.setDoOutput(true);
         try
         {
-            httpCon.setRequestProperty("Authorization", "Bearer " + token);
             httpCon.setRequestProperty("Content-Type", "application/json");
             httpCon.setRequestMethod("PUT");
         } catch (ProtocolException e)
@@ -171,18 +218,22 @@ public final class APICommunication
         }
         try
         {
-            String password;
             OutputStreamWriter out = new OutputStreamWriter(httpCon.getOutputStream());
-            if (data.get("Password").toString().equals("null"))
-            {
-                password = null;
-            } else
-            {
-                password = "\"" + data.get("Password").toString() + "\"";
-            }
+            User user=new User();
+            user.username=username;
+            user.password=data.getString("password");
+            user.firstname=data.getString("firstname");
+            user.lastname=data.getString("lastname");
+            user.sex=data.getString("sex");
+            user.hometown=data.getString("hometown");
+            user.description=data.getString("description");
+            user.age=data.getInt("age");
+            user.major=data.getString("major");
+            user.profilePicture= (byte[]) data.get("profilePicture");
+            user.hobbies=data.getString("hobbies");
 
-            String Jsondata = "{\"Password\": " + password + ",\"PersonSexualityId\": " + data.getInt("PersonSexualityId") + ",\"Email\": \"" + data.getString("Email") + "\",\"Description\": \"" + data.getString("Description") + "\",\"IsActive\": " + data.getBoolean("IsActive") + "}";
-            out.write(Jsondata);
+            String jsondata=gson.toJson(user);
+            out.write(jsondata);
             out.close();
             httpCon.getInputStream();
         } catch (IOException e)
@@ -201,10 +252,22 @@ public final class APICommunication
     }
 
 
-    public static synchronized JSONArray getAllFishersAccordingToTheirPref(int yourid, String token)
+
+
+    public static synchronized JSONObject sendFriendRequest(){
+
+
+
+    }
+
+
+
+
+    public static synchronized JSONArray getUsersByInfo(String firstname, String lastname, String sex,
+                                                           String major, String hometown, int maxage, int minage, String hobbies)
     {
         /**GETTING DATA ABOUT THE USER BY ID*/
-        JSONObject dataAboutUser = getFisher(yourid, token);
+        JSONObject userInfo = getUser(yourid, token);
         int sexPref = dataAboutUser.getInt("PersonSexualityId");
         String gender = dataAboutUser.getString("Gender");
         /***/
@@ -212,7 +275,7 @@ public final class APICommunication
         URL url = null;
         try
         {
-            url = new URL("https://localhost:44380/users/GetFishersPref/" + gender + ";" + sexPref);
+            url = new URL("https://localhost:44380/users/GetUsersByInfo/");
         } catch (MalformedURLException e)
         {
             e.printStackTrace();
@@ -223,7 +286,7 @@ public final class APICommunication
             conn = (HttpURLConnection) url.openConnection();
             try
             {
-                conn.setRequestProperty("Authorization", "Bearer " + token);
+
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestMethod("GET");
             } catch (ProtocolException e)
@@ -261,6 +324,7 @@ public final class APICommunication
         return null;
 
     }
+
 
     public static synchronized JSONObject like(int Fisher2Id, String token)
     {
@@ -313,55 +377,55 @@ public final class APICommunication
     }
 
 
-    public static synchronized JSONObject reject(int Fisher2Id, String token)
-    {
-        URL url = null;
-        try
-        {
-            url = new URL("https://localhost:44380/users/Reject");
-        } catch (MalformedURLException e)
-        {
-            e.printStackTrace();
-        }
-        HttpURLConnection httpCon = null;
-        try
-        {
-            httpCon = (HttpURLConnection) url.openConnection();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        httpCon.setDoOutput(true);
-        try
-        {
-            httpCon.setRequestProperty("Authorization", "Bearer " + token);
-            httpCon.setRequestProperty("Content-Type", "application/json");
-            httpCon.setRequestMethod("POST");
-        } catch (ProtocolException e)
-        {
-            e.printStackTrace();
-        }
-        try
-        {
-            OutputStreamWriter out = new OutputStreamWriter(httpCon.getOutputStream());
-            String Jsondata = "{\"Fisher2Id\": " + Fisher2Id + "}";
-            out.write(Jsondata);
-            out.close();
-            httpCon.getInputStream();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        JSONObject JSONResult = null;
-        try
-        {
-            JSONResult = new JSONObject("{\"ResponseCode\": \"" + httpCon.getResponseCode() + "\"}");
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return JSONResult;
-    }
+//    public static synchronized JSONObject reject(int Fisher2Id, String token)
+//    {
+//        URL url = null;
+//        try
+//        {
+//            url = new URL("https://localhost:44380/users/Reject");
+//        } catch (MalformedURLException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        HttpURLConnection httpCon = null;
+//        try
+//        {
+//            httpCon = (HttpURLConnection) url.openConnection();
+//        } catch (IOException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        httpCon.setDoOutput(true);
+//        try
+//        {
+//            httpCon.setRequestProperty("Authorization", "Bearer " + token);
+//            httpCon.setRequestProperty("Content-Type", "application/json");
+//            httpCon.setRequestMethod("POST");
+//        } catch (ProtocolException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        try
+//        {
+//            OutputStreamWriter out = new OutputStreamWriter(httpCon.getOutputStream());
+//            String Jsondata = "{\"Fisher2Id\": " + Fisher2Id + "}";
+//            out.write(Jsondata);
+//            out.close();
+//            httpCon.getInputStream();
+//        } catch (IOException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        JSONObject JSONResult = null;
+//        try
+//        {
+//            JSONResult = new JSONObject("{\"ResponseCode\": \"" + httpCon.getResponseCode() + "\"}");
+//        } catch (IOException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        return JSONResult;
+//    }
 
 }
 
