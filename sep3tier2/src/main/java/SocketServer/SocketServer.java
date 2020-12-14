@@ -106,7 +106,7 @@ public class SocketServer implements Runnable {
 
                             case "SENDFRIENDREQUEST":
 
-                                
+
 
 
 

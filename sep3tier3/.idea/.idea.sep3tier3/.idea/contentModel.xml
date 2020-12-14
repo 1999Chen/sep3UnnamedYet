@@ -42,7 +42,6 @@
           <e p="SocialLine.cs" t="Include" />
           <e p="User.cs" t="Include" />
         </e>
-        <e p="msgs.json" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.1" t="Include">
@@ -56,6 +55,7 @@
         </e>
         <e p="sep3tier3.csproj" t="IncludeRecursive" />
         <e p="Startup.cs" t="Include" />
+        <e p="users.json" t="Include" />
       </e>
       <e p="sep3tier3.sln" t="IncludeFlat" />
     </e>
