@@ -17,22 +17,18 @@ namespace sep3tier3.Data
 {
     public class userService : IUserService
     {
-        private string msgFile = "msgs.json";
-        private List<User> users;
-        sepDBContext dbcontext = new sepDBContext();
-        friendService _friendService = new friendService();
+        private string msgFile = "users.json";
+       
+        sepDBContext dbcontext ;
+        friendService _friendService ;
 
         public userService()
         {
-            string content = File.ReadAllText(msgFile);
-            users = JsonSerializer.Deserialize<List<User>>(content);
+            dbcontext = new sepDBContext();
+            _friendService = new friendService();
         }
 
-        private void WriteToFile()
-        {
-            string productsAsJson = JsonSerializer.Serialize(users);
-            File.WriteAllText(msgFile, productsAsJson);
-        }
+       
 
         public User RegisterUser(User user)
         {
@@ -42,9 +38,9 @@ namespace sep3tier3.Data
             }
             
             dbcontext.Users.Add(user);
-            users.Add(user);
+            
             dbcontext.SaveChanges();
-            WriteToFile();
+          
             return user;
         }
 

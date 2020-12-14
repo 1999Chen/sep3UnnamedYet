@@ -20,6 +20,7 @@ namespace sep3tier3.Controllers
         [HttpPost("Login")]
         public IActionResult Login([FromBody] User loginuser)
         {
+            Console.WriteLine("t3 API LOGIN");
             var user = userService.LoginUser(loginuser);
 
             if (user == null)
@@ -65,15 +66,27 @@ namespace sep3tier3.Controllers
         }
 
 
-        [HttpGet("users")]
-       
+        [HttpGet]
         public IActionResult GetAllUsers()
         {
+           
             return Ok(userService.getAllUsers());
+           
         }
         
+        
+        [HttpGet("{username}")]
+        public IActionResult GetUsersByInfo()
+        {
+           
+            return Ok(userService.getAllUsers());
+           
+        }
+        
+        
+        
 
-        [HttpGet("SearchUsers")]
+        [HttpGet("searchUsers")]
         public IActionResult SearchUsers(int minage,int maxage,[FromBody] User userTo)
         {
             var list = userService.getUsersByInfo(userTo.firstname, userTo.lastname, userTo.sex,

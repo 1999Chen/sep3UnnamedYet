@@ -3,6 +3,8 @@ package APICommunication;
 import Model.ChatMessage;
 import Model.User;
 import com.google.gson.Gson;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -27,38 +29,56 @@ public final class APICommunication
     private static Gson gson=new Gson();
 
 
-    public static synchronized JSONObject Login(String username, String password)
-    {
-        String responseBody = null;
-        httpPost = new HttpPost("https://localhost:44380/users/Login");
-        String json = "{\"Username\": \"" + username + "\",\"Password\": \"" + password + "\"}";
+    public static synchronized JSONObject Login(String username, String password) throws IOException {
+
+        StringBuilder result = new StringBuilder();
+        URL url = null;
+        url = new URL("https://localhost:44380/users/Login/"+username+";"+password);
+        HttpURLConnection conn = null;
+        conn = (HttpURLConnection) url.openConnection();
+        User user=new User();
+        user.setUsername(username);
+        user.setPassword(password);
+
+        String data=gson.toJson(user);
         StringEntity entity = null;
+        System.out.println(data);
         try
         {
-            entity = new StringEntity(json);
+            entity = new StringEntity(data);
 
         } catch (UnsupportedEncodingException e)
         {
+            System.out.println("error"+data);
             e.printStackTrace();
         }
-        httpPost.setEntity(entity);
-        httpPost.setHeader("Accept", "application/json");
-        httpPost.setHeader("Content-type", "application/json");
-        CloseableHttpResponse response = null;
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestMethod("GET");
+        HttpResponse response = null;
+
         try
         {
-            response = client.execute(httpPost);
-            responseBody = new String(response.getEntity().getContent().readAllBytes());
+            BufferedReader rd;
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line;
+            while ((line = rd.readLine()) != null)
+            {
+                result.append(line);
+            }
+            rd.close();
         } catch (IOException e)
         {
+            System.out.println("USING API error");
             e.getMessage();
         }
-        if (responseBody == null)
+        if (conn.getResponseCode() != 200)
         {
-            return new JSONObject("{\"ResponseCode\": \"connect to T3 failed\"}");
+            JSONObject JSONResult = new JSONObject("[{\"ResponseCode\": \"" + conn.getResponseCode() + "\"}]");
+            return JSONResult;
         } else
         {
-            return new JSONObject(responseBody);
+            JSONObject JSONResult = new JSONObject(result.toString());
+            return JSONResult;
         }
     }
 
@@ -93,6 +113,62 @@ public final class APICommunication
         int responseCodeInt = response.getStatusLine().getStatusCode();
         JSONObject responseCode = new JSONObject("{\"ResponseCode\": \"" + responseCodeInt + "\"}");
         return responseCode;
+    }
+
+
+    public static synchronized JSONObject getUserInfo(String username, String token)
+    {
+        StringBuilder result = new StringBuilder();
+        URL url = null;
+        try
+        {
+            url = new URL("https://localhost:44380/users/getUserByInfo/" + username);
+        } catch (MalformedURLException e)
+        {
+            e.printStackTrace();
+        }
+        HttpURLConnection conn = null;
+        try
+        {
+            conn = (HttpURLConnection) url.openConnection();
+            try
+            {
+                conn.setRequestProperty("Authorization", "Bearer " + token);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestMethod("GET");
+
+            } catch (ProtocolException e)
+            {
+                e.printStackTrace();
+            }
+            BufferedReader rd;
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line;
+            while ((line = rd.readLine()) != null)
+            {
+                result.append(line);
+            }
+            rd.close();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        try
+        {
+            if (conn.getResponseCode() != 200)
+            {
+                JSONObject JSONResult = new JSONObject("{\"ResponseCode\": \"" + conn.getResponseCode() + "\"}");
+                return JSONResult;
+            } else
+            {
+                JSONObject JSONResult = new JSONObject(result.toString());
+                return JSONResult;
+            }
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

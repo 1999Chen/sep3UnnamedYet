@@ -67,12 +67,12 @@
         <option value="$PROJECT_DIR$/sep3tier3/Data/socialLineService.cs" />
         <option value="$PROJECT_DIR$/sep3tier3/DataAccess/sepDBContext.cs" />
         <option value="$PROJECT_DIR$/sep3tier3/Data/IUserService.cs" />
-        <option value="$PROJECT_DIR$/sep3tier3/Controllers/usersController.cs" />
-        <option value="$PROJECT_DIR$/sep3tier3/Data/userService.cs" />
         <option value="$PROJECT_DIR$/sep3tier3/Controllers/chatMessagesController.cs" />
         <option value="$PROJECT_DIR$/sep3tier3/Models/ChatMessage.cs" />
-        <option value="$PROJECT_DIR$/sep3tier3/Properties/launchSettings.json" />
         <option value="$PROJECT_DIR$/sep3tier3/users.json" />
+        <option value="$PROJECT_DIR$/sep3tier3/Data/userService.cs" />
+        <option value="$PROJECT_DIR$/sep3tier3/Controllers/usersController.cs" />
+        <option value="$PROJECT_DIR$/sep3tier3/Properties/launchSettings.json" />
       </list>
     </option>
   </component>
@@ -146,7 +146,7 @@
       <workItem from="1607879063672" duration="1280000" />
       <workItem from="1607881071248" duration="689000" />
       <workItem from="1607881817784" duration="5977000" />
-      <workItem from="1607943106235" duration="8470000" />
+      <workItem from="1607943106235" duration="17387000" />
     </task>
     <servers />
   </component>
@@ -175,22 +175,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="999" y="180" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1607884252041" />
-    <state width="903" height="341" key="GridCell.Tab.0.bottom" timestamp="1607958570203">
+    <state width="903" height="341" key="GridCell.Tab.0.bottom" timestamp="1607974879764">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="903" height="341" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1607958570203" />
-    <state width="903" height="341" key="GridCell.Tab.0.center" timestamp="1607958570203">
+    <state width="903" height="341" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1607974879764" />
+    <state width="903" height="341" key="GridCell.Tab.0.center" timestamp="1607974879764">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="903" height="341" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1607958570203" />
-    <state width="903" height="341" key="GridCell.Tab.0.left" timestamp="1607958570203">
+    <state width="903" height="341" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1607974879764" />
+    <state width="903" height="341" key="GridCell.Tab.0.left" timestamp="1607974879764">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="903" height="341" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1607958570203" />
-    <state width="903" height="341" key="GridCell.Tab.0.right" timestamp="1607958570203">
+    <state width="903" height="341" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1607974879764" />
+    <state width="903" height="341" key="GridCell.Tab.0.right" timestamp="1607974879764">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="903" height="341" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1607958570203" />
+    <state width="903" height="341" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1607974879764" />
     <state x="943" y="255" key="Rider.ProjectTemplateDialog.Size" timestamp="1607629840541">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -203,10 +203,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="790" y="280" width="336" height="269" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/0.0.1920.1040@0.0.1920.1040" timestamp="1607884278241" />
-    <state x="803" y="290" width="671" height="459" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1607691171629">
+    <state x="803" y="290" width="671" height="459" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1607959222860">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="803" y="290" width="671" height="459" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1607691171629" />
+    <state x="803" y="290" width="671" height="459" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1607959222860" />
     <state x="971" y="229" width="672" height="678" key="search.everywhere.popup" timestamp="1605059941413">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
