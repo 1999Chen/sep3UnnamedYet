@@ -263,19 +263,15 @@ public final class APICommunication
 
 
 
-    public static synchronized JSONArray getUsersByInfo(String firstname, String lastname, String sex,
+    public static synchronized JSONArray searchUsers(String firstname, String lastname, String sex,
                                                            String major, String hometown, int maxage, int minage, String hobbies)
     {
-        /**GETTING DATA ABOUT THE USER BY ID*/
-        JSONObject userInfo = getUser(yourid, token);
-        int sexPref = dataAboutUser.getInt("PersonSexualityId");
-        String gender = dataAboutUser.getString("Gender");
-        /***/
+
         StringBuilder result = new StringBuilder();
         URL url = null;
         try
         {
-            url = new URL("https://localhost:44380/users/GetUsersByInfo/");
+            url = new URL("https://localhost:44380/users/SearchUsers");
         } catch (MalformedURLException e)
         {
             e.printStackTrace();
@@ -326,106 +322,8 @@ public final class APICommunication
     }
 
 
-    public static synchronized JSONObject like(int Fisher2Id, String token)
-    {
-        URL url = null;
-        try
-        {
-            url = new URL("https://localhost:44380/users/Like");
-        } catch (MalformedURLException e)
-        {
-            e.printStackTrace();
-        }
-        HttpURLConnection httpCon = null;
-        try
-        {
-            httpCon = (HttpURLConnection) url.openConnection();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        httpCon.setDoOutput(true);
-        try
-        {
-            httpCon.setRequestProperty("Authorization", "Bearer " + token);
-            httpCon.setRequestProperty("Content-Type", "application/json");
-            httpCon.setRequestMethod("POST");
-        } catch (ProtocolException e)
-        {
-            e.printStackTrace();
-        }
-        try
-        {
-            OutputStreamWriter out = new OutputStreamWriter(httpCon.getOutputStream());
-            String Jsondata = "{\"Fisher2Id\": " + Fisher2Id + "}";
-            out.write(Jsondata);
-            out.close();
-            httpCon.getInputStream();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        JSONObject JSONResult = null;
-        try
-        {
-            JSONResult = new JSONObject("{\"ResponseCode\": \"" + httpCon.getResponseCode() + "\"}");
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return JSONResult;
-    }
 
 
-//    public static synchronized JSONObject reject(int Fisher2Id, String token)
-//    {
-//        URL url = null;
-//        try
-//        {
-//            url = new URL("https://localhost:44380/users/Reject");
-//        } catch (MalformedURLException e)
-//        {
-//            e.printStackTrace();
-//        }
-//        HttpURLConnection httpCon = null;
-//        try
-//        {
-//            httpCon = (HttpURLConnection) url.openConnection();
-//        } catch (IOException e)
-//        {
-//            e.printStackTrace();
-//        }
-//        httpCon.setDoOutput(true);
-//        try
-//        {
-//            httpCon.setRequestProperty("Authorization", "Bearer " + token);
-//            httpCon.setRequestProperty("Content-Type", "application/json");
-//            httpCon.setRequestMethod("POST");
-//        } catch (ProtocolException e)
-//        {
-//            e.printStackTrace();
-//        }
-//        try
-//        {
-//            OutputStreamWriter out = new OutputStreamWriter(httpCon.getOutputStream());
-//            String Jsondata = "{\"Fisher2Id\": " + Fisher2Id + "}";
-//            out.write(Jsondata);
-//            out.close();
-//            httpCon.getInputStream();
-//        } catch (IOException e)
-//        {
-//            e.printStackTrace();
-//        }
-//        JSONObject JSONResult = null;
-//        try
-//        {
-//            JSONResult = new JSONObject("{\"ResponseCode\": \"" + httpCon.getResponseCode() + "\"}");
-//        } catch (IOException e)
-//        {
-//            e.printStackTrace();
-//        }
-//        return JSONResult;
-//    }
 
 }
 

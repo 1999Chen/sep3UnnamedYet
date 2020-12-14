@@ -61,18 +61,26 @@ namespace sep3tier3.Controllers
             {
                 return BadRequest(new {message = e.Message});
             }
-          
+        }
+
+
+        [HttpGet("users")]
+       
+        public IActionResult GetAllUsers()
+        {
+            return Ok(userService.getAllUsers());
         }
         
 
-        [HttpGet("GetUsersByInfo")]
-        public IActionResult GetUsersByInfo(int minage,int maxage,[FromBody] User userTo)
+        [HttpGet("SearchUsers")]
+        public IActionResult SearchUsers(int minage,int maxage,[FromBody] User userTo)
         {
             var list = userService.getUsersByInfo(userTo.firstname, userTo.lastname, userTo.sex,
                 userTo.major, userTo.hometown, maxage, minage, userTo.hobbies);
             return Ok(list);
         }
         
+        [HttpPost]
         
         
         

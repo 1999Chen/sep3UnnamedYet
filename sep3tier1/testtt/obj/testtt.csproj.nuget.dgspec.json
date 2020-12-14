@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\github\\sep3POC\\sep3tier1\\testtt\\testtt.csproj": {}
+    "D:\\github\\sep3UnnamedYet\\sep3tier1\\testtt\\testtt.csproj": {}
   },
   "projects": {
-    "D:\\github\\sep3POC\\sep3tier1\\testtt\\testtt.csproj": {
+    "D:\\github\\sep3UnnamedYet\\sep3tier1\\testtt\\testtt.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\github\\sep3POC\\sep3tier1\\testtt\\testtt.csproj",
+        "projectUniqueName": "D:\\github\\sep3UnnamedYet\\sep3tier1\\testtt\\testtt.csproj",
         "projectName": "testtt",
-        "projectPath": "D:\\github\\sep3POC\\sep3tier1\\testtt\\testtt.csproj",
+        "projectPath": "D:\\github\\sep3UnnamedYet\\sep3tier1\\testtt\\testtt.csproj",
         "packagesPath": "C:\\Users\\yu\\.nuget\\packages\\",
-        "outputPath": "D:\\github\\sep3POC\\sep3tier1\\testtt\\obj\\",
+        "outputPath": "D:\\github\\sep3UnnamedYet\\sep3tier1\\testtt\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\yu\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -41,10 +41,6 @@
             "EntityFramework": {
               "target": "Package",
               "version": "[6.4.4, )"
-            },
-            "GoogleGson": {
-              "target": "Package",
-              "version": "[2.6.1, )"
             },
             "Json.Net": {
               "target": "Package",

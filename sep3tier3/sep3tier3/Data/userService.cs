@@ -80,9 +80,16 @@ namespace sep3tier3.Data
             dbcontext.SaveChanges();
         }
 
-        public IEnumerable<User> getAllUsers()
+        public List<User> getAllUsers()
         {
-            return dbcontext.Users;
+            var IEList= dbcontext.Users;
+            var list=new List<User>();
+            foreach (var user in IEList)
+            {
+                list.Add(user);
+            }
+
+            return list;
         }
 
         public List<User> getUsersByInfo(string firstname, string lastname, string sex, 

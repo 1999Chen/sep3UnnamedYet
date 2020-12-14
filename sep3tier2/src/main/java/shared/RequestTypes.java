@@ -8,6 +8,6 @@ public enum RequestTypes
     SENDMESSAGE,
     LOGOUT,
     SENDFRIENDREQUEST,
-    GETUSERS,
-    GETUSERSBYINFO,
+    GETALLUSERS,
+    SEARCHUSERS,
 }

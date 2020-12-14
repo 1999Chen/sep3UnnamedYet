@@ -1,0 +1,144 @@
+﻿@page "/MyHomePage"
+@using Microsoft.AspNetCore.Mvc.RazorPages
+@using System.Windows.
+
+
+<AuthorizeView>
+    <NotAuthorized>
+        <div class="form-group">
+            <label>Log in to start your chat!</label>
+        </div>
+
+        <a href="Login">
+            Login in here
+        </a>
+        <div style="color:red"></div>
+    </NotAuthorized>
+    <Authorized>
+
+        <a>Hi!</a>
+
+        <a href>Edit my information</a>
+
+        <div class="form-group">
+                    <label>:</label>
+                    <label> @profilePicture </label>
+                </div>
+        <div class="form-group">
+            <label>lastName:</label>
+            <label> @lastname </label>
+        </div>
+            <div class="form-group">
+                    <label>firstname:</label>
+                    <label> @firstname </label>
+                </div>
+        <div class="form-group">
+            <label>Sex:</label>
+            <label> @sex</label>
+        </div>
+         <div class="form-group">
+                    <label>Description:</label>
+                    <label> @description</label>
+                </div>
+        <div class="form-group">
+            <label>Age:</label>
+            <label> @age</label>
+        </div>
+        <div class="form-group">
+            <label>Hometown:</label>
+            <label> @hometown</label>
+        </div>
+        <div class="form-group">
+            <label>Major:</label>
+            <label> @major</label>
+        </div>
+         <div class="form-group">
+                    <label>Hobbies:</label>
+                    <label> @hobbies</label>
+                </div>
+        <div class="form-group">
+            <label>Friends:</label>
+            <label> @friends</label>
+        </div>
+
+    </Authorized>
+</AuthorizeView>
+
+
+@code {
+
+    public byte[] profilePicture;
+    public string lastname;
+    public string firstname;
+    public string sex;
+    public int age;
+    public string hometown;
+    public string major;
+    public int friends=1;
+    public string description;
+    public string hobbies;
+
+
+    private string pathname = string.Empty;     		//定义路径名变量
+
+    public void a()
+    {
+        OpenFileDialoh
+        
+    }
+    
+    private void button1_Click(object sender, EventArgs e)  	//打开方法
+    {
+        OpenFileDialog file = new OpenFileDialog();
+        file.InitialDirectory = ".";
+        file.Filter = "所有文件(*.*)|*.*";
+        file.ShowDialog();
+        if (file.FileName != string.Empty)
+        {
+            try
+            {
+                pathname = file.FileName;   //获得文件的绝对路径
+                this.pictureBox1.Load(pathname);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    }
+    
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

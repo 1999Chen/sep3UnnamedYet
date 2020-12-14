@@ -14,7 +14,7 @@ namespace sep3tier3.Data
         List<User> getUsersByInfo(string firstname, string lastname, string sex,
             string major, string hometown, int maxage, int minage, string hobbies);
 
-        IEnumerable<User> getAllUsers();
+        List<User> getAllUsers();
 
         void editInfo(User user);
         

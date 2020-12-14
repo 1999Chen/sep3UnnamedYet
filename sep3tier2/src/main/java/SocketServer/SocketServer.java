@@ -2,6 +2,7 @@ package SocketServer;
 
 import Model.User;
 import com.google.gson.Gson;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import shared.Request;
 import APICommunication.APICommunication;
@@ -92,10 +93,12 @@ public class SocketServer implements Runnable {
                             case "SENDFRIENDREQUEST":
 
 
-                            case "GETUSERS":
+                            case "GETALLUSERS":
 
 
-                            case "GETUSERSBYINFO":
+
+
+                            case "SEARCHUSERS":
                                 String firstname = request.getArgs().getString("firstname");
                                 String lastname = request.getArgs().getString("lastname");
                                 String sex = request.getArgs().getString("sex");
@@ -104,8 +107,9 @@ public class SocketServer implements Runnable {
                                 Integer maxage = request.getArgs().getInt("maxage");
                                 Integer minage = request.getArgs().getInt("minage");
                                 String hobbies = request.getArgs().getString("hobbies");
-                                APICommunication.getUsersByInfo(firstname,lastname,sex,major,hometown
+                                JSONArray jsonArray= APICommunication.searchUsers(firstname,lastname,sex,major,hometown
                                 ,maxage,minage,hobbies);
+                                out.write(jsonArray.toString().getBytes());
 
 
                         }
