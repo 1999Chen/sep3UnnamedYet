@@ -69,7 +69,7 @@ public final class APICommunication
     {
 
         httpPost = new HttpPost("https://localhost:44380/users/register");
-        String json = user.toString();
+        String json = gson.toJson(user);
         StringEntity entity = null;
         try
         {
@@ -156,11 +156,11 @@ public final class APICommunication
 
 
 
-    public static synchronized JSONObject sendMessage(ChatMessage message)
+    public static synchronized JSONObject storeMessage(ChatMessage message)
     {
 
-        httpPost = new HttpPost("https://localhost:44380/users/register");
-        String json = message.toString();
+        httpPost = new HttpPost("https://localhost:44380/chatMessages");
+        String json = gson.toJson(message);
         StringEntity entity = null;
         try
         {
@@ -254,10 +254,54 @@ public final class APICommunication
 
 
 
-    public static synchronized JSONObject sendFriendRequest(){
-
-
-
+    public static synchronized JSONObject sendFriendRequest(JSONObject friend,String token)
+    {
+        URL url = null;
+        try
+        {
+            url = new URL("https://localhost:44380/friends");
+        } catch (MalformedURLException e)
+        {
+            e.printStackTrace();
+        }
+        HttpURLConnection httpCon = null;
+        try
+        {
+            httpCon = (HttpURLConnection) url.openConnection();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        httpCon.setDoOutput(true);
+        try
+        {
+            httpCon.setRequestProperty("Authorization", "Bearer " + token);
+            httpCon.setRequestProperty("Content-Type", "application/json");
+            httpCon.setRequestMethod("POST");
+        } catch (ProtocolException e)
+        {
+            e.printStackTrace();
+        }
+        try
+        {
+            OutputStreamWriter out = new OutputStreamWriter(httpCon.getOutputStream());
+            String Jsondata = friend.toString();
+            out.write(Jsondata);
+            out.close();
+            httpCon.getInputStream();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        JSONObject JSONResult = null;
+        try
+        {
+            JSONResult = new JSONObject("{\"ResponseCode\": \"" + httpCon.getResponseCode() + "\"}");
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return JSONResult;
     }
 
 

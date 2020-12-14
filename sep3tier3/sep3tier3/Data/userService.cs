@@ -111,7 +111,11 @@ namespace sep3tier3.Data
 
             return list;
         }
-        
+
+        public void storeMessage(ChatMessage chatMessage)
+        {
+            dbcontext.ChatMessages.Add(chatMessage);
+        }
 
         public void addFriend(User user1, User user2)
         {

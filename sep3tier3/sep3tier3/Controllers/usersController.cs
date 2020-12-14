@@ -48,11 +48,12 @@ namespace sep3tier3.Controllers
         }
 
 
-        [HttpPut("username")]
+        [HttpPut("users/{username}")]
         public IActionResult EditUserInfo([FromBody] User tobeEdituser)
         {
             try
             {
+                string username = tobeEdituser.username;
                 //Update user
                 userService.editInfo(tobeEdituser);
                 return Ok();
@@ -79,10 +80,13 @@ namespace sep3tier3.Controllers
                 userTo.major, userTo.hometown, maxage, minage, userTo.hobbies);
             return Ok(list);
         }
-        
-        [HttpPost]
-        
-        
+
+        [HttpPost("chatMessages")]
+        public IActionResult storeMessage([FromBody] ChatMessage chatMessage)
+        {
+            userService.storeMessage(chatMessage);
+            return Ok();
+        }
         
         
         

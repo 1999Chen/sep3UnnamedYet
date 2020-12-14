@@ -16,5 +16,6 @@ namespace sep3tier3.Models
         public string message { set; get; }
         public DateTime date { set; get; }
         public byte[] image { set; get; }
+        public bool online { set; get; }
     }
 }

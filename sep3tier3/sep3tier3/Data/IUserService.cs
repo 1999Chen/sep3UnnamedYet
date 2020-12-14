@@ -17,8 +17,8 @@ namespace sep3tier3.Data
         List<User> getAllUsers();
 
         void editInfo(User user);
-        
-        
+
+        void storeMessage(ChatMessage chatMessage);
 
 
 

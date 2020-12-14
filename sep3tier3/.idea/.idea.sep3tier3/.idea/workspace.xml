@@ -52,7 +52,6 @@
         <option value="$PROJECT_DIR$/sep3tier3/msgs.json" />
         <option value="$PROJECT_DIR$/sep3tier3/Properties/launchSettings.json" />
         <option value="$PROJECT_DIR$/sep3tier3/Startup.cs" />
-        <option value="$PROJECT_DIR$/sep3tier3/Models/ChatMessage.cs" />
         <option value="$PROJECT_DIR$/sep3tier3/Models/SocialLine.cs" />
         <option value="$PROJECT_DIR$/sep3tier3/Models/User.cs" />
         <option value="$PROJECT_DIR$/sep3tier3/Controllers/msgController.cs" />
@@ -68,9 +67,11 @@
         <option value="$PROJECT_DIR$/sep3tier3/Data/chatMessageService.cs" />
         <option value="$PROJECT_DIR$/sep3tier3/Data/socialLineService.cs" />
         <option value="$PROJECT_DIR$/sep3tier3/DataAccess/sepDBContext.cs" />
-        <option value="$PROJECT_DIR$/sep3tier3/Data/userService.cs" />
         <option value="$PROJECT_DIR$/sep3tier3/Data/IUserService.cs" />
         <option value="$PROJECT_DIR$/sep3tier3/Controllers/usersController.cs" />
+        <option value="$PROJECT_DIR$/sep3tier3/Data/userService.cs" />
+        <option value="$PROJECT_DIR$/sep3tier3/Controllers/chatMessagesController.cs" />
+        <option value="$PROJECT_DIR$/sep3tier3/Models/ChatMessage.cs" />
       </list>
     </option>
   </component>
@@ -144,7 +145,7 @@
       <workItem from="1607879063672" duration="1280000" />
       <workItem from="1607881071248" duration="689000" />
       <workItem from="1607881817784" duration="5977000" />
-      <workItem from="1607943106235" duration="3515000" />
+      <workItem from="1607943106235" duration="7058000" />
     </task>
     <servers />
   </component>

@@ -1,5 +1,6 @@
 package SocketServer;
 
+import Model.ChatMessage;
 import Model.User;
 import com.google.gson.Gson;
 import org.json.JSONArray;
@@ -85,12 +86,29 @@ public class SocketServer implements Runnable {
 
                             case "SENDMESSAGE":
                                 String nameRecv = request.getArgs().getString("nameRecv");
-                                OutputStream outToOther = loginclients.get(nameRecv).getOutputStream();
-                                outToOther.write(request.getArgs().toString().getBytes());
+                                ChatMessage chatMessage=gson.fromJson(request.getArgs().toString(),ChatMessage.class);
+                                if (loginclients.containsKey(nameRecv)) {
+                                    chatMessage.setOnline(true);
+                                    APICommunication.storeMessage(chatMessage);
+                                    OutputStream outToOther = loginclients.get(nameRecv).getOutputStream();
+                                    outToOther.write(request.getArgs().toString().getBytes());
+                                }
+                                else {
+                                    chatMessage.setOnline(false);
+                                    APICommunication.storeMessage(chatMessage);
+                                }
+
 
                             case "LOGOUT":
-                               break;
+                                String name = request.getArgs().getString("username");
+                                loginclients.remove(name);
+                                break;
+
                             case "SENDFRIENDREQUEST":
+
+                                
+
+
 
 
                             case "GETALLUSERS":
