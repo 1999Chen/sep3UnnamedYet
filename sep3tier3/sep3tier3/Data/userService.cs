@@ -44,21 +44,22 @@ namespace sep3tier3.Data
             return user;
         }
 
-        public User LoginUser(User user)
+        public string LoginUser(string username,string password)
         {
-            var existingUser = dbcontext.Users.SingleOrDefault(x => x.username == user.username);
+            Console.WriteLine("loging userService");
+            var existingUser = dbcontext.Users.SingleOrDefault(x => x.username == username);
 
             if (existingUser != null)
             {
-                if (existingUser.password.Equals(user.password))
+                if (existingUser.password.Equals(password))
                 {
-                    return user;
+                    return "T";
                 }
 
-                return null;
+                return "F";
             }
 
-            return null;
+            return "F";
         }
 
         public void editInfo(User user)

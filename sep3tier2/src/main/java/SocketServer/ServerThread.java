@@ -90,7 +90,7 @@ public class ServerThread extends Thread
                     case "GETUSERINFO":
                         JSONObject arguments = request.getArgs();
                         String name = arguments.getString("username");
-                        JSONObject responseFromAPI = APICommunication.getUserInfo(name,token);
+                        JSONObject responseFromAPI = APICommunication.getUserInfo(name);
                         out.write(responseFromAPI.toString().getBytes());
                         json = "";
 

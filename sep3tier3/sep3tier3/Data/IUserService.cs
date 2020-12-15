@@ -7,7 +7,7 @@ namespace sep3tier3.Data
     public interface IUserService
     {
 
-        User LoginUser(User user);
+        string LoginUser(string username, string password);
 
         User RegisterUser(User user);
 

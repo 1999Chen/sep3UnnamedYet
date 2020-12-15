@@ -18,24 +18,22 @@ namespace sep3tier3.Controllers
         }
 
         [HttpPost("Login")]
-        public IActionResult Login([FromBody] User loginuser)
+        public IActionResult Login([FromBody] AuthenticateUser loginuser)
         {
             Console.WriteLine("t3 API LOGIN");
-            var user = userService.LoginUser(loginuser);
+            var result = userService.LoginUser(loginuser.username,loginuser.password);
 
-            if (user == null)
+            if (result == "F")
             {
-                return BadRequest(new {message = "username or password is incorrect"});
+                Console.WriteLine("tier 3 log in data wrong");
+                return BadRequest(new {message = "Username or password is incorrect"});
             }
 
-            return Ok(new User
-            {
-                username = loginuser.username,
-                password = loginuser.password
-            });
+            return Ok();
         }
+       
 
-        [HttpPost("Register")]
+        [HttpPost]
         public IActionResult Register([FromBody] User registeruser)
         {
             var user = userService.RegisterUser(registeruser);
@@ -45,6 +43,7 @@ namespace sep3tier3.Controllers
                 return BadRequest(new {message = "user exists"});
             }
 
+            Console.WriteLine("asdasd");
             return Ok(user);
         }
 

@@ -30,55 +30,37 @@ public final class APICommunication
 
 
     public static synchronized JSONObject Login(String username, String password) throws IOException {
-
-        StringBuilder result = new StringBuilder();
-        URL url = null;
-        url = new URL("https://localhost:44380/users/Login/"+username+";"+password);
-        HttpURLConnection conn = null;
-        conn = (HttpURLConnection) url.openConnection();
-        User user=new User();
-        user.setUsername(username);
-        user.setPassword(password);
-
-        String data=gson.toJson(user);
+        String responseBody = null;
+        System.out.println("loging tier2 API");
+        httpPost = new HttpPost("https://localhost:44380/users/Login");
+        String json = "{\"Username\": \"" + username + "\",\"Password\": \"" + password + "\"}";
         StringEntity entity = null;
-        System.out.println(data);
         try
         {
-            entity = new StringEntity(data);
+            entity = new StringEntity(json);
 
         } catch (UnsupportedEncodingException e)
         {
-            System.out.println("error"+data);
             e.printStackTrace();
         }
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setRequestMethod("GET");
-        HttpResponse response = null;
-
+        httpPost.setEntity(entity);
+        httpPost.setHeader("Accept", "application/json");
+        httpPost.setHeader("Content-type", "application/json");
+        CloseableHttpResponse response = null;
         try
         {
-            BufferedReader rd;
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line;
-            while ((line = rd.readLine()) != null)
-            {
-                result.append(line);
-            }
-            rd.close();
+            response = client.execute(httpPost);
+            responseBody = new String(response.getEntity().getContent().readAllBytes());
         } catch (IOException e)
         {
-            System.out.println("USING API error");
             e.getMessage();
         }
-        if (conn.getResponseCode() != 200)
+        if (responseBody == null)
         {
-            JSONObject JSONResult = new JSONObject("[{\"ResponseCode\": \"" + conn.getResponseCode() + "\"}]");
-            return JSONResult;
+            return new JSONObject("{\"ResponseCode\": \"Can't connect to T3 \"}");
         } else
         {
-            JSONObject JSONResult = new JSONObject(result.toString());
-            return JSONResult;
+            return new JSONObject(responseBody);
         }
     }
 
@@ -87,8 +69,8 @@ public final class APICommunication
 
     public static synchronized JSONObject Register(JSONObject user)
     {
-
-        httpPost = new HttpPost("https://localhost:44380/users/register");
+        
+        httpPost = new HttpPost("https://localhost:44380/users");
         String json = gson.toJson(user);
         StringEntity entity = null;
         try
@@ -112,11 +94,12 @@ public final class APICommunication
         }
         int responseCodeInt = response.getStatusLine().getStatusCode();
         JSONObject responseCode = new JSONObject("{\"ResponseCode\": \"" + responseCodeInt + "\"}");
+        System.out.println("api tier2  register");
         return responseCode;
     }
 
 
-    public static synchronized JSONObject getUserInfo(String username, String token)
+    public static synchronized JSONObject getUserInfo(String username)
     {
         StringBuilder result = new StringBuilder();
         URL url = null;
@@ -133,7 +116,6 @@ public final class APICommunication
             conn = (HttpURLConnection) url.openConnection();
             try
             {
-                conn.setRequestProperty("Authorization", "Bearer " + token);
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestMethod("GET");
 
@@ -330,7 +312,7 @@ public final class APICommunication
 
 
 
-    public static synchronized JSONObject sendFriendRequest(JSONObject friend,String token)
+    public static synchronized JSONObject sendFriendRequest(JSONObject friend)
     {
         URL url = null;
         try
@@ -351,7 +333,6 @@ public final class APICommunication
         httpCon.setDoOutput(true);
         try
         {
-            httpCon.setRequestProperty("Authorization", "Bearer " + token);
             httpCon.setRequestProperty("Content-Type", "application/json");
             httpCon.setRequestMethod("POST");
         } catch (ProtocolException e)

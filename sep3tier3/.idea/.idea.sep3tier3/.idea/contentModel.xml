@@ -37,6 +37,7 @@
           <e p="sepDBContextModelSnapshot.cs" t="Include" />
         </e>
         <e p="Models" t="Include">
+          <e p="AuthenticateUser.cs" t="Include" />
           <e p="ChatMessage.cs" t="Include" />
           <e p="Friend.cs" t="Include" />
           <e p="SocialLine.cs" t="Include" />
