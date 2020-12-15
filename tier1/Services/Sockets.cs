@@ -13,19 +13,26 @@ namespace tier1.Services
 {
     public class Sockets : ISockets
     {
+        
         private static Sockets sockets = new Sockets();
         private IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
 
         IPEndPoint ipEndPoint;
         Socket socket;
 
-        private Sockets()
+        // private Sockets()
+        // {
+        //    
+        // }
+
+        public void start()
         {
             ipEndPoint = new IPEndPoint(ipAddress, 8500);
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socket.Connect("127.0.0.1", 8500);
             // Debug.WriteLine("Connection is succesfull");
             Console.WriteLine("Connected!");
+            
         }
 
         public static Sockets getInstance()
@@ -38,13 +45,14 @@ namespace tier1.Services
             var json = JsonSerializer.Serialize(request);
             byte[] bytes = Encoding.UTF8.GetBytes(json + ";");
             socket.Send(bytes);
-            Console.WriteLine("send ok" + bytes);
+            Console.WriteLine("send ok " + bytes);
 
             string recv = "";
             byte[] recvBytes = new byte[1024];
             int bytesa;
             bytesa = socket.Receive(recvBytes, recvBytes.Length, 0);
             recv += Encoding.UTF8.GetString(recvBytes, 0, bytesa);
+            Console.WriteLine("receive ok " + recv);
             // return JsonSerializer.Deserialize(recv);
             return recv;
 
@@ -61,7 +69,7 @@ namespace tier1.Services
         // }
         //
 
-        public void Login(string username, string password)
+        public string Login(string username, string password)
         {
             Request request = new Request()
             {
@@ -70,12 +78,12 @@ namespace tier1.Services
             };
             string recvStr = SendAndReceive(request);
 
-            if (recvStr.Contains("Username or password is incorrect"))
+            Console.WriteLine(recvStr);
+            if (recvStr.Contains("incorrect"))
             {
-                Console.WriteLine("Username or password is incorrect");
+                return "Username or password is incorrect";
             }
-
-
+            return "login succedds";
 
         }
 
@@ -84,7 +92,7 @@ namespace tier1.Services
             Request request = new Request()
             {
                 Type = RequestTypes.REGISTER.ToString(),
-                Args = new User {username = username, password = password, Role = "Admin"}
+                Args = new User {username = username, password = password}
             };
             string recv = SendAndReceive(request);
             return recv;
@@ -94,13 +102,12 @@ namespace tier1.Services
         {
             Request request = new Request()
             {
-                Type = RequestTypes.GETUSERSBYINFO.ToString(),
+                Type = RequestTypes.SEARCHUSERS.ToString(),
                 Args = userInfo,
             };
             string recv = SendAndReceive(request);
             return recv;
         }
-        
         
 
         public string GetUser(string username)
@@ -108,7 +115,7 @@ namespace tier1.Services
             throw new System.NotImplementedException();
         }
 
-        public string Edit(string username, string password,string firstname,string lastname, string hobbies, byte[] profilePicture,  string sex, string hometown, string description, string major, int age)
+        public string Edit(string username, string password,string firstname,string lastname, string hobbies,   string sex, string hometown, string description, string major, int age)
         {
             Request request = new Request
             {
@@ -116,16 +123,15 @@ namespace tier1.Services
                 Args = new User
                 {
                     username = username,
-                    password = password,
-                    sex = sex,
-                    hobbies = hobbies,
-                    firstname = firstname,
-                    lastname = lastname,
-                    profilePicture = profilePicture,
-                    hometown = hometown,
-                    major = major,
-                    age = age,
-                    description = description,
+                    sex = "sex",
+                    hobbies = "hobbies",
+                    firstname = "firstname",
+                    lastname = "lastname",
+                  
+                    hometown = "hometown",
+                    major = "major",
+                    age = 0,
+                    description =" description",
                 }
             };
             string recv = SendAndReceive(request);
@@ -154,9 +160,19 @@ namespace tier1.Services
         }
 
         
-        public string AddRequest(int otherId)
+        public string AddFriendRequest(Friend friend)
         {
-            throw new System.NotImplementedException();
+
+            Request request = new Request()
+            {
+
+                Type = RequestTypes.SENDFRIENDREQUEST.ToString(),
+                Args = friend
+
+            };
+            string recv = SendAndReceive(request);
+            return recv;
+            
         }
 
         public string Reject(int otherId)

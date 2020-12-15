@@ -1,6 +1,7 @@
 ﻿@page "/Register"
 @using tier1.Data.Impl
 @using LoginComponent
+@using tier1.Data
 
 
 <div class="form-group">
@@ -21,13 +22,13 @@
     public string username;
     public string password;
     public string message;
-    public InMemoryUserService inMemoryUserService=new InMemoryUserService();
+    public IUserService userService=new userService();
 
     
 
     public void RegisterNewUser()
     {
-        inMemoryUserService.RegisterUser(username, password);
+        userService.RegisterUser(username, password);
         message = "Register succedds!";
 
     }

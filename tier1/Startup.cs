@@ -1,6 +1,6 @@
 using System;
 using System.Security.Claims;
-using tier1.Authentication;
+
 using tier1.Data;
 using tier1.Data.Impl;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using tier1.Services;
 
 namespace tier1 {
 public class Startup {
@@ -23,8 +24,9 @@ public class Startup {
     public void ConfigureServices(IServiceCollection services) {
         services.AddRazorPages();
         services.AddServerSideBlazor();
-        services.AddScoped<IUserService, InMemoryUserService>();
-        services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+        services.AddScoped<IUserService, userService>();
+        services.AddScoped<ISockets,Sockets>();
+        // services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
         services.AddAuthorization(options => {
           options.AddPolicy("Admin",  a => 

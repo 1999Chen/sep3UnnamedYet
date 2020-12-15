@@ -54,7 +54,6 @@ D:\c#\sep3\tier1\obj\Debug\netcoreapp3.1\tier1.dll
 D:\c#\sep3\tier1\obj\Debug\netcoreapp3.1\tier1.pdb
 D:\c#\sep3\tier1\obj\Debug\netcoreapp3.1\tier1.genruntimeconfig.cache
 D:\c#\sep3\tier1\obj\Debug\netcoreapp3.1\tier1.csproj.CopyComplete
-D:\github\sep3\tier1\bin\Debug\netcoreapp3.1\adults.json
 D:\github\sep3\tier1\bin\Debug\netcoreapp3.1\appsettings.Development.json
 D:\github\sep3\tier1\bin\Debug\netcoreapp3.1\appsettings.json
 D:\github\sep3\tier1\bin\Debug\netcoreapp3.1\families.json
@@ -117,3 +116,4 @@ D:\github\sep3\tier1\obj\Debug\netcoreapp3.1\Razor\Pages\ManagePersonalInfo.razo
 D:\github\sep3\tier1\bin\Debug\netcoreapp3.1\AutoMapper.dll
 D:\github\sep3\tier1\bin\Debug\netcoreapp3.1\jose-jwt.dll
 D:\github\sep3\tier1\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+D:\github\sep3\tier1\bin\Debug\netcoreapp3.1\Gat.Controls.OpenDialog.dll

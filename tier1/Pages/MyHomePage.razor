@@ -1,6 +1,6 @@
 ﻿@page "/MyHomePage"
 @using Microsoft.AspNetCore.Mvc.RazorPages
-@using System.Windows.
+
 
 
 <AuthorizeView>
@@ -83,28 +83,28 @@
 
     public void a()
     {
-        OpenFileDialoh
+        
         
     }
     
-    private void button1_Click(object sender, EventArgs e)  	//打开方法
-    {
-        OpenFileDialog file = new OpenFileDialog();
-        file.InitialDirectory = ".";
-        file.Filter = "所有文件(*.*)|*.*";
-        file.ShowDialog();
-        if (file.FileName != string.Empty)
-        {
-            try
-            {
-                pathname = file.FileName;   //获得文件的绝对路径
-                this.pictureBox1.Load(pathname);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }  
+    // private void button1_Click(object sender, EventArgs e)  	//打开方法
+    // {
+    //     OpenFileDialog file = new OpenFileDialog();
+    //     file.InitialDirectory = ".";
+    //     file.Filter = "所有文件(*.*)|*.*";
+    //     file.ShowDialog();
+    //     if (file.FileName != string.Empty)
+    //     {
+    //         try
+    //         {
+    //             pathname = file.FileName;   //获得文件的绝对路径
+    //             this.pictureBox1.Load(pathname);
+    //         }
+    //         catch (Exception ex)
+    //         {
+    //             MessageBox.Show(ex.Message);
+    //         }
+    //     }  
     
     
     

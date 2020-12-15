@@ -1,5 +1,6 @@
 @page "/Login"
-@using tier1.Authentication
+
+@using tier1.Data
 @using tier1.Data.Impl
 @namespace LoginComponent
 
@@ -37,17 +38,22 @@
     private string username;
     private string password;
     private string message;
-    public InMemoryUserService inMemoryUserService=new InMemoryUserService();
+    IUserService userService=new userService();
     
-
     public async Task PerformLogin() {
         message = "";
         try {
-            ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLogin(username, password);
-            username = "";
-            password = "";
-            NavigationManager.NavigateTo("/Login");
-            message = "Login succeed!";
+            string ok=userService.ValidateUser(username,password);
+            if (ok.Contains("Username or password is incorrect"))
+            {
+                message = ok;
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/MyHomePage");
+                message = "Login succeed!";
+            }
+           
         } catch (Exception e) {
             message = e.Message;
         }
@@ -60,7 +66,7 @@
         password = "";
         try
         {
-            ((CustomAuthenticationStateProvider) AuthenticationStateProvider).Logout();
+            
             NavigationManager.NavigateTo("/Login");
             message = "Logout succeed!";
 
@@ -74,7 +80,7 @@
     public async Task PerformRegister(string username, string password)
     {
 
-        inMemoryUserService.RegisterUser(username, password);
+        userService.RegisterUser(username, password);
         
         
         

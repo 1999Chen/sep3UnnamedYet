@@ -10,7 +10,7 @@
         LOGOUT,
         SENDFRIENDREQUEST,
         GETUSERS,
-        GETUSERSBYINFO,
+        SEARCHUSERS,
 
     }
 }

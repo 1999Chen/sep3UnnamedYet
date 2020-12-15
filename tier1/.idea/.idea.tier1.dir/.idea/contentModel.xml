@@ -8,7 +8,6 @@
     <e p="D:\github\sep3\tier1" t="IncludeRecursive">
       <e p=".gitattributes" t="Include" />
       <e p="_Imports.razor" t="Include" />
-      <e p="adults.json" t="Include" />
       <e p="App.razor" t="Include" />
       <e p="appsettings.Development.json" t="Include" />
       <e p="appsettings.json" t="Include" />
@@ -17,14 +16,13 @@
       </e>
       <e p="bin" t="ExcludeRecursive" />
       <e p="Data" t="Include">
-        <e p="Impl" t="Include">
-          <e p="InMemoryUserService.cs" t="Include" />
-        </e>
         <e p="IUserService.cs" t="Include" />
+        <e p="userService.cs" t="Include" />
       </e>
       <e p="families.json" t="Include" />
       <e p="Models" t="Include">
         <e p="ChatMessage.cs" t="Include" />
+        <e p="Friend.cs" t="Include" />
         <e p="User.cs" t="Include" />
         <e p="UserInfo.cs" t="Include" />
       </e>
