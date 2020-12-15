@@ -18,7 +18,7 @@ namespace sep3tier3.Controllers
         }
 
         [HttpPost("Login")]
-        public IActionResult Login([FromBody] AuthenticateUser loginuser)
+        public IActionResult Login([FromBody] User loginuser)
         {
             Console.WriteLine("t3 API LOGIN");
             var result = userService.LoginUser(loginuser.username,loginuser.password);
@@ -48,12 +48,11 @@ namespace sep3tier3.Controllers
         }
 
 
-        [HttpPut("users/{username}")]
-        public IActionResult EditUserInfo([FromBody] User tobeEdituser)
+        [HttpPut("{username}")]
+        public IActionResult EditUserInfo(string username,[FromBody] User tobeEdituser)
         {
             try
             {
-                string username = tobeEdituser.username;
                 //Update user
                 userService.editInfo(tobeEdituser);
                 return Ok();
@@ -68,7 +67,7 @@ namespace sep3tier3.Controllers
         [HttpGet]
         public IActionResult GetAllUsers()
         {
-           
+           Console.WriteLine("GET USETS");
             return Ok(userService.getAllUsers());
            
         }

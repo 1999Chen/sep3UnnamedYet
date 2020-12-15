@@ -12,12 +12,14 @@ import org.apache.http.impl.client.HttpClients;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.net.ssl.*;
 import java.io.*;
 import java.lang.management.GarbageCollectorMXBean;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.security.cert.X509Certificate;
 
 public final class APICommunication
 {
@@ -29,11 +31,45 @@ public final class APICommunication
     private static Gson gson=new Gson();
 
 
+    private static void trustAllHosts() {
+        // Create a trust manager that does not validate certificate chains
+        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                return new java.security.cert.X509Certificate[] {};
+            }
+
+            public void checkClientTrusted(X509Certificate[] chain, String authType) {
+            }
+
+            public void checkServerTrusted(X509Certificate[] chain, String authType) {
+            }
+        } };
+        // Install the all-trusting trust manager
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private final static HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
+        public boolean verify(String hostname, SSLSession session) {
+            return true;
+        }
+    };
+
+
+
+
     public static synchronized JSONObject Login(String username, String password) throws IOException {
         String responseBody = null;
         System.out.println("loging tier2 API");
-        httpPost = new HttpPost("https://localhost:44380/users/Login");
-        String json = "{\"Username\": \"" + username + "\",\"Password\": \"" + password + "\"}";
+         trustAllHosts();
+        httpPost = new HttpPost("https://localhost:500/users/Login");
+
+        String json = "{\"username\": \"" + username + "\",\"password\": \"" + password + "\"}";
         StringEntity entity = null;
         try
         {
@@ -60,7 +96,8 @@ public final class APICommunication
             return new JSONObject("{\"ResponseCode\": \"Can't connect to T3 \"}");
         } else
         {
-            return new JSONObject(responseBody);
+            return new JSONObject("{\"ResponseCode\": \"connect to T3 \"}");
+//            return new JSONObject(responseBody);
         }
     }
 
@@ -69,8 +106,8 @@ public final class APICommunication
 
     public static synchronized JSONObject Register(JSONObject user)
     {
-        
-        httpPost = new HttpPost("https://localhost:44380/users");
+
+        httpPost = new HttpPost("https://localhost:5000/users");
         String json = gson.toJson(user);
         StringEntity entity = null;
         try
@@ -105,7 +142,7 @@ public final class APICommunication
         URL url = null;
         try
         {
-            url = new URL("https://localhost:44380/users/getUserByInfo/" + username);
+            url = new URL("https://localhost:5000/users/getUserByInfo/" + username);
         } catch (MalformedURLException e)
         {
             e.printStackTrace();
@@ -162,7 +199,7 @@ public final class APICommunication
         URL url = null;
         try
         {
-            url = new URL("https://localhost:44380/users/getuser/" + username);
+            url = new URL("https://localhost:5000/users/getuser/" + username);
         } catch (MalformedURLException e)
         {
             e.printStackTrace();
@@ -217,7 +254,7 @@ public final class APICommunication
     public static synchronized JSONObject storeMessage(ChatMessage message)
     {
 
-        httpPost = new HttpPost("https://localhost:44380/chatMessages");
+        httpPost = new HttpPost("https://localhost:5000/chatMessages");
         String json = gson.toJson(message);
         StringEntity entity = null;
         try
@@ -252,7 +289,7 @@ public final class APICommunication
         URL url = null;
         try
         {
-            url = new URL("https://localhost:44380/users/" + username);
+            url = new URL("https://localhost:5000/users/" + username);
         } catch (MalformedURLException e)
         {
             e.printStackTrace();
@@ -280,14 +317,15 @@ public final class APICommunication
             User user=new User();
             user.username=username;
             user.password=data.getString("password");
-            user.firstname=data.getString("firstname");
-            user.lastname=data.getString("lastname");
             user.sex=data.getString("sex");
+            user.lastname=data.getString("lastname");
+
             user.hometown=data.getString("hometown");
+            user.firstname=data.getString("firstname");
+
             user.description=data.getString("description");
             user.age=data.getInt("age");
             user.major=data.getString("major");
-            user.profilePicture= (byte[]) data.get("profilePicture");
             user.hobbies=data.getString("hobbies");
 
             String jsondata=gson.toJson(user);
@@ -317,7 +355,7 @@ public final class APICommunication
         URL url = null;
         try
         {
-            url = new URL("https://localhost:44380/friends");
+            url = new URL("https://localhost:5000/friends");
         } catch (MalformedURLException e)
         {
             e.printStackTrace();
@@ -372,7 +410,7 @@ public final class APICommunication
         URL url = null;
         try
         {
-            url = new URL("https://localhost:44380/users/SearchUsers");
+            url = new URL("https://localhost:5000/users/SearchUsers");
         } catch (MalformedURLException e)
         {
             e.printStackTrace();

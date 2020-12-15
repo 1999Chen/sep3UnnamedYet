@@ -14,7 +14,6 @@ namespace sep3tier3.Models
         public string major{ set; get; }
         public string hometown{ set; get; }
         public string description{ set; get; }
-        public byte[] profilePicture{ set; get; }
         public int age{ set; get; }
         public string hobbies{ set; get; }
         

@@ -13,7 +13,6 @@ public class User implements Serializable {
     public String major;
     public String hometown;
     public String description;
-    public byte[] profilePicture;
     public int age;
     public String hobbies;
 
@@ -43,7 +42,6 @@ public class User implements Serializable {
         this.major = "";
         this.hometown = "";
         this.description = "";
-        this.profilePicture = new byte[1024];
         this.age = 0;
         hobbies="";
     }
@@ -101,14 +99,6 @@ public class User implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public byte[] getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(byte[] profilePicture) {
-        this.profilePicture = profilePicture;
     }
 
     public int getAge() {

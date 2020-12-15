@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import shared.Request;
 import shared.RequestTypes;
 
+import javax.net.ssl.HostnameVerifier;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -23,10 +24,21 @@ public class ServerThread extends Thread
         this.socket = socket;
     }
 
+
+
+
+
+
+
+
     public void InitializeServer()
     {
         try
         {
+
+
+
+
             System.out.println("server initialized");
             String json = "";
 

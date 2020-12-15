@@ -38,9 +38,7 @@ namespace sep3tier3.Data
             }
             
             dbcontext.Users.Add(user);
-            
             dbcontext.SaveChanges();
-          
             return user;
         }
 
@@ -73,7 +71,6 @@ namespace sep3tier3.Data
             loginUser.description = user.description;
             loginUser.hobbies = user.hobbies;
             loginUser.hometown = user.hometown;
-            loginUser.profilePicture = user.profilePicture;
             dbcontext.SaveChanges();
         }
 
